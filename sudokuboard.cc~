@@ -1,0 +1,142 @@
+#include "sudokuboard.h"
+#include <cassert>
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+
+SudokuBoard::SudokuBoard()
+{
+   for(size_t i=0;i<9;i++) // n must be 9
+    some[i] = "         ";
+}
+
+void SudokuBoard::place(int r, int c, char n)
+{
+  //if (canPlace(r,c,n)) ///// I SHOULD HAVE ALREADY CHECKED
+  some[r][c] = n;  //// CANNOT MUTATE STRINGS
+ //  string newRow = "";
+//   for (int i=0; i<9; i++){
+//     if (c == i)
+//       newRow = newRow + n; /// CAN YOU ADD CHARS TO STRINGS
+//     else
+//       newRow = newRow + some[r][i];
+//   }
+
+//   some[r] = newRow; /// I THINK THIS IS RIGHT
+  
+}
+
+void SudokuBoard::print() const
+{
+  for (int i=0; i<9; i++)
+    cout << some[i] << endl;
+}
+
+int SudokuBoard::get(int r, int c) const
+{
+  assert(r>=0);
+  assert(c>=0);
+  assert(r<9);
+  assert(c<9);
+  
+  /// WE CHANGE CHAR TO AN INT
+  char num = some[r][c];
+
+  //assert(num != ' ');
+  if (num == ' ')
+    return -1;
+
+
+
+
+
+
+
+//   assert(num<9);
+
+  string numS = " 123456789";
+
+  for (int i=0; i<10; i++)
+    if (num == numS[i]){
+      assert(i != 0);
+      return i;
+    }
+  int i=0;
+  assert(i != 0);
+  return i; /////////////////////////////
+}
+
+void SudokuBoard::remove(int r, int c)
+{  
+  assert(r>=0);
+  assert(c>=0);
+  assert(r<9);
+  assert(c<9);
+  
+  some[r][c] = ' ';
+
+//   // cannot mutate Strings
+//   string newRow = "";
+//   for (int i=0; i<9; i++){
+//     if (c == i)
+//       newRow = newRow + "0"; /// CAN YOU ADD CHARS TO STRINGS
+//     else
+//       newRow = newRow + some[r][i];
+//   }
+
+//   some[r] = newRow; /// I THINK THIS IS RIGHT
+
+}
+
+bool SudokuBoard::canPlace(int r, int c, char n) const
+{
+  assert(r>=0);
+  assert(c>=0);
+  assert(r<9);
+  assert(c<9);
+  int ro = (r/3)*3;
+  int co = (c/3)*3;  
+  
+  for (int i=0; i<9; i++){
+    if (some[r][i] == n)
+      return false;
+    if (some[i][c] == n)
+      return false;
+  }
+  for (int j=0; j<3; j++){
+    for (int k=0; k<3; k++){
+      if (some[ro+j][co+k] == n)
+	return false;
+      
+    }
+  }	
+  return true;     
+}
+
+bool SudokuBoard::empty(int r, int c) const
+{
+  
+  return some[r][c] == ' ';
+}
+
+bool SudokuBoard::solved() const
+{
+  for (int i=0; i<9; i++){
+    for (int j=0; j<9; j++){
+      if (some[i][j] == ' ')
+	return false;
+	}
+  }
+  return true;
+}
+
+
+// void place(int r, int c, char n); // Place number n at position (r,c)
+//   void print(); // Write the board to cout
+//   int get(int r, char c) const; // return the numeral at position (r,c)
+//   void remove(int r, char c); // remove the numeral position (r,c)
+//   bool canPlace(int r, int c, char n) const; // true if the board allows 
+//   //placing n @ (r,c)
+//   bool solved() const; // true if no blanks spots on the board
+    

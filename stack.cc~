@@ -1,0 +1,32 @@
+#include <cstdlib>
+#include <cassert>
+#include "stack.h" 
+using namespace std;
+
+Stack::Stack()
+{
+  top = NULL;
+}
+
+bool Stack::empty()
+{
+  return top == NULL;
+}
+
+void Stack::push(Stack::Type item)
+{
+  Node * newTop = new Node;
+  newTop->data = item;
+  newTop->next = top;
+  top = newTop;
+}
+
+Stack::Type Stack::pop()
+{
+  assert(!empty());
+  Type x = top->data;
+  Node *oldTop = top;
+  top = top->next;
+  delete oldTop;
+  return x;
+}
